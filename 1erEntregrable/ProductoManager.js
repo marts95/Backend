@@ -76,7 +76,7 @@ manejadorProducto.addProduct(
 
 console.log(`Creando un producto con código nuevo`);
 manejadorProducto.addProduct(
-  new Product("Sandalias", "Elegantes y a la moda", 4500, "A2", "FotoBotas", 35)
+  new Product("Sandalias", "Las mejores de la temporada", 4500, "A2", "FotoSandalias", 35)
 );
 
 console.log(manejadorProducto.getProducts());
