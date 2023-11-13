@@ -2,8 +2,8 @@ const fs = require("fs");
 
 class ProductManager {
   constructor(path) {
-    this.products = [];
     this.path = path;
+
     if (fs.existsSync(path)) {
       try {
         let products = fs.readFileSync(path, "utf-8");
@@ -16,33 +16,20 @@ class ProductManager {
     }
   }
 
-  async saveFile(data) {
+  async saveFile(product) {
     try {
-      await fs.promises.writeFile(this.path, JSON.stringify(data, null, "\t"));
+      await fs.promises.writeFile(
+        this.path,
+        JSON.stringify(product, null, "\t")
+      );
       return true;
     } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
-
-  getProducts() {
-    return this.products;
-  }
-
-  addProduct(product) {
-    if (
-      !product.title ||
-      !product.description ||
-      !product.price ||
-      !product.thumbnail ||
-      !product.code ||
-      !product.stock
-    ) {
-      console.log("Todos los campos son obligatorios");
+      console.log(`Hubo un error: ${error}`);
       return;
     }
+  }
 
+  async addProduct(product) {
     if (this.products.some((prod) => prod.code === product.code)) {
       console.log("Ya existe un producto con ese código");
       return;
@@ -55,63 +42,54 @@ class ProductManager {
     }
 
     this.products.push(product);
+
+    const respuesta = await this.saveFile(this.products);
+
+    if (respuesta) {
+      console.log("Producto creado");
+    } else {
+      console.log(`Hubo un error al crear el producto`);
+    }
+  }
+
+  getProducts() {
+    return this.products;
   }
 
   getProductById(id) {
     const product = this.products.find((product) => product.id === id);
 
-    // if (product) {
-    //   return product;
-    // } else {
-    //   return console.log("Not Found");
-    // }
-    if (fs.existsSync(path)) {
-      try {
-        let product = fs.readFileSync(path, "utf-8");
-        this.product = JSON.parse(products);
-      } catch (error) {
-        this.product = {};
-      }
+    if (product) {
+      return product;
     } else {
-      this.product = {};
+      return console.log("Not Found");
     }
   }
 
-  async updateProduct(id, campoActualizado) {
-    const productId = this.products.find((product) => product.id === id);
+ async updateProduct(id, campo, valor){
+  const productId = this.products.find((product) => product.id === id);
 
-    if (!productId) {
-      console.log("Producto no encontrado");
-      return;
-    }
+  if(!productId){
+    console.log("Producto no encontrado");
+  }
 
-    const productUpdated = this.product[productId];
+  const productUpdated = this.product[productId];
+  console.log(productUpdated);
+  
+ }
 
-    for (const key in campoActualizado) {
-      if (key in productUpdated) {
-        productUpdated[key] = campoActualizado[key];
-      } else {
-        console.log(`El campo '${key}' no es existe`);
-      }
-    }
+async deleteProduct(id){
+  const productId = this.products.find((product) => product.id === id);
 
-    this.products[productId] = productUpdated;
+  if(productId){
+    const nuevoArray = this.products.filter((product) => product.id != id);
+    this.products = nuevoArray;
+
     await this.saveFile(this.products);
+  }else{
+    console.log("No se pudo borrar el producto");
   }
-
-  async deleteProduct(id) {
-    const productId = this.products.find((product) => product.id === id);
-
-    if (productId) {
-      const nuevoProducts = this.products.filter(
-        (product) => product.id === id
-      );
-      this.products = nuevoProducts;
-      await this.saveFile();
-    } else {
-      console.log("No se pudo borrar el producto");
-    }
-  }
+}
 }
 
 class Product {
@@ -126,8 +104,6 @@ class Product {
 }
 
 //prueba
-const manejadorProducto = new ProductManager("./Productos.json");
-
 const product1 = new Product(
   "Zapatos",
   "Cómodos y baratos",
@@ -146,15 +122,25 @@ const product2 = new Product(
   35
 );
 
-console.log("Buscar un producto por ID");
-const producto1 = manejadorProducto.getProductById(1);
-console.log(producto1);
-const producto2 = manejadorProducto.getProductById(5);
+const product3 = new Product(
+  "Zapatillas",
+  "Las más cómodas que encontraras",
+  3000,
+  "A3",
+  "FotoZapatillas",
+  15
+);
 
-const actualizarPorducto = manejadorProducto.updateProduct(1, {
-  description: "Como nunca los viste antes",
-});
+const manejadorProducto = new ProductManager("./Productos.json");
+
+// manejadorProducto.addProduct(product1);
+// manejadorProducto.addProduct(product2);
+// manejadorProducto.addProduct(product3);
+
+// console.log(manejadorProducto.getProductById(2));
+
+manejadorProducto.updateProduct(1, `title`, "Como nunca los viste antes");
 console.log(manejadorProducto.getProducts());
 
-manejadorProducto.deleteProduct(2);
-console.log(manejadorProducto.getProducts());
+// manejadorProducto.deleteProduct(2);
+// console.log(manejadorProducto.getProducts());
