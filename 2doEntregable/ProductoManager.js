@@ -66,30 +66,38 @@ class ProductManager {
     }
   }
 
- async updateProduct(id, campo, valor){
-  const productId = this.products.find((product) => product.id === id);
+  async updateProduct(id, campo, value) {
+    const productId = this.products.findIndex((product) => product.id === id);
 
-  if(!productId){
-    console.log("Producto no encontrado");
+    if (productId === -1) {
+      console.log("Producto no encontrado");
+      return;
+    }
+    
+    this.products[productId][campo] = value;
+
+    const respuesta = await this.saveFile(this.products);
+
+    if(respuesta){
+      console.log("Producto actualizado");
+    } else{
+      console.log("Hubo un error al actualizar el producto");
+    }
+    
   }
 
-  const productUpdated = this.product[productId];
-  console.log(productUpdated);
-  
- }
+  async deleteProduct(id) {
+    const productId = this.products.find((product) => product.id === id);
 
-async deleteProduct(id){
-  const productId = this.products.find((product) => product.id === id);
+    if (productId) {
+      const nuevoArray = this.products.filter((product) => product.id != id);
+      this.products = nuevoArray;
 
-  if(productId){
-    const nuevoArray = this.products.filter((product) => product.id != id);
-    this.products = nuevoArray;
-
-    await this.saveFile(this.products);
-  }else{
-    console.log("No se pudo borrar el producto");
+      await this.saveFile(this.products);
+    } else {
+      console.log("No se pudo borrar el producto");
+    }
   }
-}
 }
 
 class Product {
@@ -133,14 +141,17 @@ const product3 = new Product(
 
 const manejadorProducto = new ProductManager("./Productos.json");
 
-// manejadorProducto.addProduct(product1);
-// manejadorProducto.addProduct(product2);
-// manejadorProducto.addProduct(product3);
+manejadorProducto.addProduct(product1);
+manejadorProducto.addProduct(product2);
+manejadorProducto.addProduct(product3);
 
-// console.log(manejadorProducto.getProductById(2));
+console.log(manejadorProducto.getProductById(2));
 
-manejadorProducto.updateProduct(1, `title`, "Como nunca los viste antes");
-console.log(manejadorProducto.getProducts());
+// manejadorProducto.updateProduct(2, "description", "Como nuevitas");
+// console.log(manejadorProducto.getProducts());
 
-// manejadorProducto.deleteProduct(2);
+// manejadorProducto.deleteProduct(7);
+// console.log(manejadorProducto.getProducts());
+
+// manejadorProducto.deleteProduct(1);
 // console.log(manejadorProducto.getProducts());
