@@ -114,33 +114,141 @@ class Product {
 
 
 // export default ProductManager //import ProductManager from "ProductManager.cjs"
-export {ProductManager} //import {ProductManager} from "ProductManager.cjs"
+// export {ProductManager} //import {ProductManager} from "ProductManager.cjs"
 
 //prueba
 const product1 = new Product(
-  "Zapatos",
-  "Cómodos y baratos",
-  2500,
+  "Alfajores",
+  "Alfajores de dulce de leche tipo marplatenses y de maicena",
+  1500,
   "A1",
-  "FotoZapatos",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142068/Panader%C3%ADa%20S%C3%A1nchez/alfajorescuadrado_zbc1bj.jpg",
   25
 );
 
 const product2 = new Product(
-  "Sandalias",
-  "Las mejores de la temporada",
-  4500,
+  "Bizcochos",
+  "Los clásicos redonditos o cuadraditos hojaldrados",
+  1500,
   "A2",
-  "FotoSandalias",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142068/Panader%C3%ADa%20S%C3%A1nchez/bizcosalados_y2fkoc.jpg",
   35
 );
 
 const product3 = new Product(
-  "Zapatillas",
-  "Las más cómodas que encontraras",
-  3000,
+  "Cañoncitos",
+  "Con relleno de dulce de leche",
+  3500,
   "A3",
-  "FotoZapatillas",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142068/Panader%C3%ADa%20S%C3%A1nchez/ca%C3%B1oncitos_aiqs19.jpg",
+  15
+);
+
+const product4 = new Product(
+  "Chipaquitos",
+  "No apto para vegetarianos",
+  1600,
+  "A4",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142069/Panader%C3%ADa%20S%C3%A1nchez/chipaquitos_t3j6kc.jpg",
+  15
+);
+
+const product5 = new Product(
+  "Cupcakes",
+  "Con o sin baño de chocolate negro",
+  2500,
+  "A5",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142068/Panader%C3%ADa%20S%C3%A1nchez/cupcakes_choc_aaioeb.jpg",
+  15
+);
+
+const product6 = new Product(
+  "Facturas",
+  "Gran variedad de facturas de crema pastelera, dulce de membrillo y dulce de leche con y sin decoraciones",
+  1100,
+  "A6",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142069/Panader%C3%ADa%20S%C3%A1nchez/facturastodas_povmah.jpg",
+  15
+);
+
+const product7 = new Product(
+  "Galletas",
+  "Gran variedad de galletas, entre ellas, galletas con chips de chocolate",
+  1500,
+  "A7",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142070/Panader%C3%ADa%20S%C3%A1nchez/galle_chips_choc_einnte.jpg",
+  15
+);
+
+const product8 = new Product(
+  "Lengüitas",
+  "Con dulce de leche de la mejor calidad",
+  2500,
+  "A8",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142071/Panader%C3%ADa%20S%C3%A1nchez/leng%C3%BCitas_qk9f0u.jpg",
+  15
+);
+
+const product9 = new Product(
+  "Palitos",
+  "Bañados en chocolate de leche",
+  1500,
+  "A9",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142071/Panader%C3%ADa%20S%C3%A1nchez/palitoschocolate_gepktt.jpg",
+  15
+);
+
+const product10 = new Product(
+  "Pan de miga",
+  "Disponible solo durante el mes de diciembre",
+  3500,
+  "A10",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142072/Panader%C3%ADa%20S%C3%A1nchez/panmiga_dyjsn9.jpg",
+  15
+);
+
+const product11 = new Product(
+  "Pan dulce",
+  "Disponible solo durante el mes de diciembre",
+  2000,
+  "A11",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142072/Panader%C3%ADa%20S%C3%A1nchez/pandulce_gkdrjv.jpg",
+  15
+);
+
+const product12 = new Product(
+  "Pan francés",
+  "Pan francés tipo mignon",
+  500,
+  "A12",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142071/Panader%C3%ADa%20S%C3%A1nchez/panfranc%C3%A9s_lqecx1.jpg",
+  15
+);
+
+const product13 = new Product(
+  "Pepitas",
+  "Con dulce de membrillo de la mejor calidad",
+  2200,
+  "A13",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142071/Panader%C3%ADa%20S%C3%A1nchez/pepitas_lfs6wt.jpg",
+  15
+);
+
+const product14 = new Product(
+  "Rosca de pascua",
+  "Disponible solo durante Pascuas",
+  800,
+  "A14",
+  "https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142072/Panader%C3%ADa%20S%C3%A1nchez/rosca-pascua_oldshe.jpg",
+  15
+);
+
+const product15 = new Product(
+  "Tortas",
+  "Variedad de tortas disponibles y se realizan por encargue",
+  1500,
+  "A15",
+  "https://res.https://res.cloudinary.com/dp8auiwtw/image/upload/v1686142072/Panader%C3%ADa%20S%C3%A1nchez/tortas_rqv2aj.jpg.com/dp8auiwtw/image/upload/v1686142072/Panader%C3%ADa%20S%C3%A1nchez/rosca-pascua_oldshe.jpg",
   15
 );
 
@@ -149,6 +257,18 @@ const manejadorProducto = new ProductManager("./Productos.json");
 manejadorProducto.addProduct(product1);
 manejadorProducto.addProduct(product2);
 manejadorProducto.addProduct(product3);
+manejadorProducto.addProduct(product4);
+manejadorProducto.addProduct(product5);
+manejadorProducto.addProduct(product6);
+manejadorProducto.addProduct(product7);
+manejadorProducto.addProduct(product8);
+manejadorProducto.addProduct(product9);
+manejadorProducto.addProduct(product10);
+manejadorProducto.addProduct(product11);
+manejadorProducto.addProduct(product12);
+manejadorProducto.addProduct(product13);
+manejadorProducto.addProduct(product14);
+manejadorProducto.addProduct(product15);
 
 console.log(manejadorProducto.getProductById(2));
 

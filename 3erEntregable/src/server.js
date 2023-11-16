@@ -1,36 +1,52 @@
 import express from "express";
-import {ProductManager} from "./ProductManager.cjs";
+import { readFile } from "fs/promises";
 
 const app = express();
-const PORT = 5001;
+const PORT = 8080;
 
-const products =  
-
-app.get("/", (req, res) => {
-  res.send("¡Bienvenido al 3er Entregable de Marianella Torressi para el curso de Backend!")
+const products = app.get("/", (req, res) => {
+  res.send(
+    "¡Bienvenido al 3er Entregable de Marianella Torressi para el curso de Backend!"
+  );
 });
 
-app.get("/products", (req, res) => {
-    const {limit} = req.params;
+app.get("/products", async (req, res) => {
+  try {
+    const data = await readFile("./src/Productos.json", "utf-8");
 
-    //const datos = await getDatos()
+    const todosProductos = JSON.parse(data);
 
-    // if(limit){
-    //     //Limitar el array de productos
-    // }
-  res.json(products);
+    const limit = req.query.limit
+      ? parseInt(req.query.limit)
+      : todosProductos.length;
+
+    const limitProductos = todosProductos.splice(0, limit);
+
+    res.json(limitProductos);
+  } catch (error) {
+    console.error("Error al leer el archivo JSON:", error);
+    res.status(500).send("Error interno del servidor");
+  }
 });
 
-app.get("/products/:pid", (req, res) => {
-console.log(req.params);
-const { id } = req.params;
+app.get("/products/:pid", async (req, res) => {
+  try {
+    const data = await readFile("./src/Productos.json", "utf-8");
+    const productos = JSON.parse(data);
 
-const producto = products.find((prod) => prod.id === Number(id));
-if (producto) {
-  res.json(producto);
-}
+    console.log(req.params);
+    const { pid } = req.params;
 
-res.json({ error: "Producto no encontrado" });
-})
+    const producto = productos.find((prod) => prod.id === Number(pid));
+    if (producto) {
+      return res.json(producto);
+    }
+
+    res.json({ error: "Producto no encontrado" });
+  } catch (error) {
+    console.error("Error al leer el archivo JSON:", error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
