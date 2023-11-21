@@ -113,9 +113,9 @@ class Product {
 }
 
 
-// export default ProductManager; 
+export default ProductManager; 
 //import ProductManager from "ProductManager.cjs"
-export {ProductManager} 
+// export {ProductManager} 
 //import {ProductManager} from "ProductManager.cjs"
 
 //prueba
@@ -254,7 +254,7 @@ const product15 = new Product(
   15
 );
 
-const manejadorProducto = new ProductManager("./src/Productos.json");
+const manejadorProducto = new ProductManager("./Productos.json");
 
 manejadorProducto.addProduct(product1);
 manejadorProducto.addProduct(product2);

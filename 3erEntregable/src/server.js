@@ -1,8 +1,8 @@
 import express from "express";
 // import { readFile } from "fs/promises";
-import { ProductManager } from "./ProductManager.js";
+import ProductManager from "./ProductManager.js";
 
-const nuevoProductManager = new ProductManager();
+const nuevoProductManager = new ProductManager("./Productos.json");
 
 const app = express();
 const PORT = 8080;
@@ -15,16 +15,18 @@ const products = app.get("/", (req, res) => {
 
 app.get("/products", async (req, res) => {
   try {
+    const productos = await nuevoProductManager.getProducts();
+    console.log(productos);
+
     const { limit } = req.query;
 
-    const productos = await nuevoProductManager.getProducts();
-
-    console.log("Productos obtenidos:", productos);
-
-    const limitNumber = Number(limit);
-    const limitProductos = productos.splice(0, limitNumber);
-
-    res.send(limitProductos);
+    if (limit) {
+      const limitNumber = Number(limit);
+      const limitProductos = productos.splice(0, limitNumber);
+      res.send(limitProductos);
+    }else{
+      res.send(productos);
+    }
   } catch (error) {
     console.error("Error al leer el archivo JSON:", error);
     res.status(500).send("Error interno del servidor");
