@@ -1,4 +1,4 @@
-const fs = require("fs");
+import * as fs from "fs"
 
 
 class ProductManager {
@@ -113,8 +113,10 @@ class Product {
 }
 
 
-// export default ProductManager //import ProductManager from "ProductManager.cjs"
-// export {ProductManager} //import {ProductManager} from "ProductManager.cjs"
+// export default ProductManager; 
+//import ProductManager from "ProductManager.cjs"
+export {ProductManager} 
+//import {ProductManager} from "ProductManager.cjs"
 
 //prueba
 const product1 = new Product(
@@ -252,7 +254,7 @@ const product15 = new Product(
   15
 );
 
-const manejadorProducto = new ProductManager("./Productos.json");
+const manejadorProducto = new ProductManager("./src/Productos.json");
 
 manejadorProducto.addProduct(product1);
 manejadorProducto.addProduct(product2);
@@ -270,7 +272,9 @@ manejadorProducto.addProduct(product13);
 manejadorProducto.addProduct(product14);
 manejadorProducto.addProduct(product15);
 
-console.log(manejadorProducto.getProductById(2));
+manejadorProducto.getProducts();
+
+// console.log(manejadorProducto.getProductById(2));
 
 // manejadorProducto.updateProduct(2, "description", "Como nuevitas");
 // console.log(manejadorProducto.getProducts());

@@ -1,5 +1,8 @@
 import express from "express";
-import { readFile } from "fs/promises";
+// import { readFile } from "fs/promises";
+import { ProductManager } from "./ProductManager.js";
+
+const nuevoProductManager = new ProductManager();
 
 const app = express();
 const PORT = 8080;
@@ -12,17 +15,16 @@ const products = app.get("/", (req, res) => {
 
 app.get("/products", async (req, res) => {
   try {
-    const data = await readFile("./src/Productos.json", "utf-8");
+    const { limit } = req.query;
 
-    const todosProductos = JSON.parse(data);
+    const productos = await nuevoProductManager.getProducts();
 
-    const limit = req.query.limit
-      ? parseInt(req.query.limit)
-      : todosProductos.length;
+    console.log("Productos obtenidos:", productos);
 
-    const limitProductos = todosProductos.splice(0, limit);
+    const limitNumber = Number(limit);
+    const limitProductos = productos.splice(0, limitNumber);
 
-    res.json(limitProductos);
+    res.send(limitProductos);
   } catch (error) {
     console.error("Error al leer el archivo JSON:", error);
     res.status(500).send("Error interno del servidor");
@@ -31,15 +33,14 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:pid", async (req, res) => {
   try {
-    const data = await readFile("./src/Productos.json", "utf-8");
-    const productos = JSON.parse(data);
+    const productos = await nuevoProductManager.getProducts();
 
     console.log(req.params);
     const { pid } = req.params;
 
     const producto = productos.find((prod) => prod.id === Number(pid));
     if (producto) {
-      return res.json(producto);
+      return res.send(producto);
     }
 
     res.json({ error: "Producto no encontrado" });
