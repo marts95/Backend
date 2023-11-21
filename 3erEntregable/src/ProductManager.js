@@ -254,25 +254,25 @@ const product15 = new Product(
   15
 );
 
-const manejadorProducto = new ProductManager("./Productos.json");
+const manejadorProducto = new ProductManager("./src/Productos.json");
 
-manejadorProducto.addProduct(product1);
-manejadorProducto.addProduct(product2);
-manejadorProducto.addProduct(product3);
-manejadorProducto.addProduct(product4);
-manejadorProducto.addProduct(product5);
-manejadorProducto.addProduct(product6);
-manejadorProducto.addProduct(product7);
-manejadorProducto.addProduct(product8);
-manejadorProducto.addProduct(product9);
-manejadorProducto.addProduct(product10);
-manejadorProducto.addProduct(product11);
-manejadorProducto.addProduct(product12);
-manejadorProducto.addProduct(product13);
-manejadorProducto.addProduct(product14);
-manejadorProducto.addProduct(product15);
+// manejadorProducto.addProduct(product1);
+// manejadorProducto.addProduct(product2);
+// manejadorProducto.addProduct(product3);
+// manejadorProducto.addProduct(product4);
+// manejadorProducto.addProduct(product5);
+// manejadorProducto.addProduct(product6);
+// manejadorProducto.addProduct(product7);
+// manejadorProducto.addProduct(product8);
+// manejadorProducto.addProduct(product9);
+// manejadorProducto.addProduct(product10);
+// manejadorProducto.addProduct(product11);
+// manejadorProducto.addProduct(product12);
+// manejadorProducto.addProduct(product13);
+// manejadorProducto.addProduct(product14);
+// manejadorProducto.addProduct(product15);
 
-manejadorProducto.getProducts();
+// manejadorProducto.getProducts();
 
 // console.log(manejadorProducto.getProductById(2));
 
