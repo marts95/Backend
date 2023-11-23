@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
       req.body;
 
     const { pid } = req.params;
-    const product = products.find((prod) => prod.id === Number(id));
+    const product = products.find((prod) => prod.id === Number(pid));
 
     if (products.length === 0) {
       product.id = 1;
