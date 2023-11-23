@@ -1,142 +1,121 @@
 import { Router } from "express";
+import ProductManager from "../ProductManager.js";
+
+const nuevoProductManager = new ProductManager("./src/Productos.json");
 
 const router = Router();
 
-const products = [
-  {
-    id: 1,
-    title: "Alfajores",
-    description: "Alfajores de dulce de leche tipo marplatenses y de maicena",
-    code: "A1",
-    price: 1500,
-    status: true,
-    stock: 25,
-    category: "dulce",
-  },
-  {
-    id: 2,
-    title: "Bizcochos",
-    description: "Los clásicos redonditos o cuadraditos hojaldrados",
-    code: "A2",
-    price: 1500,
-    status: true,
-    stock: 35,
-    category: "salado",
-  },
-  {
-    id: 3,
-    title: "Pan de miga",
-    description: "Disponible solo durante el mes de diciembre",
-    code: "A3",
-    price: 3500,
-    status: true,
-    stock: 15,
-    category: "especialidad",
-  },
-];
+// const products = [];
 
-router.get("/", (req, res) => {
-  const { limit } = req.query;
+router.get("/", async (req, res) => {
+  try {
+    const products = await nuevoProductManager.getProducts();
+    console.log(products);
+    const { limit } = req.query;
 
-  if (limit) {
-    const limitNumber = Number(limit);
-    return res.send(products.slice(0, limitNumber));
-  } else {
-    res.json(products);
+    if (limit) {
+      const limitNumber = Number(limit);
+      return res.send(products.slice(0, limitNumber));
+    } else {
+      res.json(products);
+    }
+  } catch {
+    console.error("Error al leer el archivo JSON:", error);
+    res.status(500).send("Error interno del servidor");
   }
 });
 
-router.get("/:pid", (req, res) => {
-  console.log(req.params);
-  const { pid } = req.params;
+router.get("/:pid", async (req, res) => {
+  try {
+    const products = await nuevoProductManager.getProducts();
+    const { pid } = req.params;
 
-  const producto = products.find((prod) => prod.id === Number(pid));
-  if (producto) {
-    return res.json(producto);
+    const producto = products.find((prod) => prod.id === Number(pid));
+    if (producto) {
+      return res.json(producto);
+    }
+
+    res.json({ error: "Producto no encontrado" });
+  } catch {
+    console.error("Error al leer el archivo JSON:", error);
+    res.status(500).send("Error interno del servidor");
   }
-
-  res.json({ error: "Producto no encontrado" });
 });
 
-router.post("/", (req, res) => {
-  const { id, title, description, code, price, status, stock, category } =
-    req.body;
+router.post("/", async (req, res) => {
+  try {
+    const products = await nuevoProductManager.getProducts();
+    const { id, title, description, code, price, status, stock, category } =
+      req.body;
 
-  const { pid } = req.params;
-  const product = products.find((prod) => prod.id === Number(id));
+    const { pid } = req.params;
+    const product = products.find((prod) => prod.id === Number(id));
 
-  if (products.length === 0) {
-    product.id = 1;
-  } else {
-    products.push({
-      id: products.length + 1,
-      title,
-      description,
-      code,
-      price,
-      status: true,
-      stock,
-      category,
-    });
-
-    res.json({
-      product: {
+    if (products.length === 0) {
+      product.id = 1;
+    } else {
+      products.push({
+        id: products.length + 1,
         title,
         description,
         code,
         price,
-        status,
+        status: true,
         stock,
         category,
-      },
-    });
+      });
 
-    //Ale te dejo los objetos para que copies y pegues para probar si se agregan
-    //     {
-    //     "title": "Cañoncitos",
-    //     "description": "Con relleno de dulce de leche",
-    //     "code": "A4",
-    //     "price": 3500,
-    //     "stock": 18,
-    //     "category": "dulce"
-    // }
-    // {
-    //     "title": "Chipaquitos",
-    //     "description": "No apto para vegetarianos",
-    //     "code": "A4",
-    //     "price": 1600,
-    //     "stock": 12,
-    //     "category": "salado"
-    // }
+      res.json({
+        product: {
+          title,
+          description,
+          code,
+          price,
+          status,
+          stock,
+          category,
+        },
+      });
+
+    }
+  } catch {
+    console.error("Error al leer el archivo JSON:", error);
+    res.status(500).send("Error interno del servidor");
   }
+  //Ale te dejo los objetos para que copies y pegues para probar si se agregan
+  //     {
+  //     "title": "Cañoncitos",
+  //     "description": "Con relleno de dulce de leche",
+  //     "code": "A4",
+  //     "price": 3500,
+  //     "stock": 18,
+  //     "category": "dulce"
+  // }
+  // {
+  //     "title": "Chipaquitos",
+  //     "description": "No apto para vegetarianos",
+  //     "code": "A4",
+  //     "price": 1600,
+  //     "stock": 12,
+  //     "category": "salado"
+  // }
 });
 
-router.put("/:pid", (req, res) => {
-  console.log(req.params);
-  const { pid } = req.params;
+router.put("/:pid", async (req, res) => {
+  try {
+    const products = await nuevoProductManager.getProducts();
+    const { pid } = req.params;
 
-  // const { id } = req.params;
-  const index = products.findIndex((prod) => prod.id === Number(pid));
+    const index = products.findIndex((prod) => prod.id === Number(pid));
 
-  const { title, description, code, price, status, stock, category } = req.body;
+    const { title, description, code, price, status, stock, category } =
+      req.body;
 
-  if (index == -1) {
-    return res.json({ error: "Producto no encontrado" });
-  }
+    if (index == -1) {
+      return res.json({ error: "Producto no encontrado" });
+    }
 
-  products[index] = {
-    id: Number(pid),
-    title,
-    description,
-    code,
-    price,
-    status: true,
-    stock,
-    category,
-  };
-
-  res.json({
-    product: {
+    products[index] = {
       id: Number(pid),
       title,
       description,
@@ -145,8 +124,24 @@ router.put("/:pid", (req, res) => {
       status: true,
       stock,
       category,
-    },
-  });
+    };
+
+    res.json({
+      product: {
+        id: Number(pid),
+        title,
+        description,
+        code,
+        price,
+        status: true,
+        stock,
+        category,
+      },
+    });
+  } catch {
+    console.error("Error al leer el archivo JSON:", error);
+    res.status(500).send("Error interno del servidor");
+  }
   //{
   //     "title": "Chipaquitos",
   //     "description": "No apto para vegetarianos",
@@ -157,21 +152,28 @@ router.put("/:pid", (req, res) => {
   // }
 });
 
-router.delete("/:pid", (req, res) => {
-    const {pid} = req.params
+router.delete("/:pid", async (req, res) => {
+try{
+ const products = await nuevoProductManager.getProducts();
+   const { pid } = req.params;
 
-    const index = products.findIndex((user) => user.id === Number(pid))
+  const index = products.findIndex((user) => user.id === Number(pid));
 
-    if(index === -1){
-        res.json({
-            error: "Usuario no encontrado"
-        })
-    }
+  if (index === -1) {
+    res.json({
+      error: "Usuario no encontrado",
+    });
+  }
 
-products.splice(index, 1)
+  products.splice(index, 1);
 
-res.json({
-    status: "Usuario eliminado"
-})})
+  res.json({
+    status: "Usuario eliminado",
+  });
+}catch{
+   console.error("Error al leer el archivo JSON:", error);
+   res.status(500).send("Error interno del servidor");
+}
+});
 
 export default router;

@@ -1,0 +1,32 @@
+[
+	{
+		"title": "Alfajores",
+		"description": "Alfajores de dulce de leche tipo marplatenses y de maicena",
+		"price": 1500,
+		"code": "A1",
+		"stock": 25,
+		"status": true,
+		"category": "",
+		"id": 1
+	},
+	{
+		"title": "Bizcochos",
+		"description": "Los clásicos redonditos o cuadraditos hojaldrados",
+		"price": 1500,
+		"code": "A2",
+		"stock": 35,
+		"status": true,
+		"category": "",
+		"id": 2
+	},
+	{
+		"title": "Pan de miga",
+		"description": "Disponible solo durante el mes de diciembre",
+		"price": 3500,
+		"code": "A3",
+		"stock": 15,
+		"status": true,
+		"category": "",
+		"id": 3
+	}
+]
