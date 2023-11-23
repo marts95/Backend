@@ -76,12 +76,16 @@ router.post("/", async (req, res) => {
           category,
         },
       });
-
+      
     }
+
+    nuevoProductManager.saveFile(products);
+
   } catch {
     console.error("Error al leer el archivo JSON:", error);
     res.status(500).send("Error interno del servidor");
   }
+
   //Ale te dejo los objetos para que copies y pegues para probar si se agregan
   //     {
   //     "title": "Cañoncitos",
@@ -138,6 +142,7 @@ router.put("/:pid", async (req, res) => {
         category,
       },
     });
+    nuevoProductManager.saveFile(products);
   } catch {
     console.error("Error al leer el archivo JSON:", error);
     res.status(500).send("Error interno del servidor");
@@ -170,6 +175,8 @@ try{
   res.json({
     status: "Usuario eliminado",
   });
+
+  nuevoProductManager.saveFile(products);
 }catch{
    console.error("Error al leer el archivo JSON:", error);
    res.status(500).send("Error interno del servidor");
