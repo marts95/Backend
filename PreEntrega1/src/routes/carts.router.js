@@ -1,24 +1,24 @@
 import { Router } from "express";
-import ProductManager from "../ProductManager.js";
+import Carts from "../Carts.js";
 
-const nuevoProductManager = new ProductManager("./src/Productos.json");
+const nuevoCart = new Carts("./src/carrito.json");
 
 const router = Router();
 
-const carts = [];
+// const carts = [];
 
-router.get("/", (req, res) => {
-  res.json(carts)
+router.get("/", async (req, res) => {
+  const carts = await nuevoCart.getCarts();
+  res.json(carts);
 });
 
 router.post("/", async (req, res) => {
   try {
-    const { id } = req.body;
+    const carts = await nuevoCart.getCarts();
+    const { id, products } = req.body;
 
     const { cid } = req.params;
-    const cart = carts.find((carrito) => carrito.id === Number(cid));
-
-    const newCart = {id, products : []}
+    const cart = carts.find((cart) => cart.id === Number(cid));
 
     if (carts.length === 0) {
       cart.id = 1;
@@ -27,26 +27,71 @@ router.post("/", async (req, res) => {
         id: carts.length + 1,
         products: [],
       });
-
-      res.json({
-        cart: {
-          products: [],
-        },
-      });
+      res.json({ products: { products } });
     }
+    nuevoCart.saveFile(cart);
   } catch {
-    // console.error("Error al leer el archivo JSON:", error);
+    console.error("Error al leer el archivo JSON:", error);
     res.status(500).send("Error interno del servidor");
   }
 });
 
-router.get("/:cid", (req, res) => {
-  const { cid } = req.params;
-  const cart = products.find((prod) => prod.id === Number(cid));
+router.get("/:cid", async (req, res) => {
+  try {
+    const carts = await nuevoCart.getCarts();
+    const { cid } = req.params;
 
-  if (cart) {
-    return res.json(cart);
+    const cart = carts.find((cart) => cart.id === Number(cid));
+
+    if (cart) {
+      return res.json(cart.products);
+    }
+
+    res.json({ mensaje: "Carrito no encontrado" });
+  } catch {
+    console.error("Error al leer el archivo JSON:", error);
+    res.status(500).send("Error interno del servidor");
   }
 });
+
+router.post("/:cid/product/:pid"),
+  async (req, res) => {
+    try {
+      const carts = await nuevoCart.getCarts();
+      const { cid, pid } = req.params;
+
+      const index = carts.find((cart) => cart.id === Number(cid));
+
+      const { id, products } = req.body;
+
+      if (index == -1) {
+        return res.json("Carrito no encontrado");
+      }
+
+      const carritoExistente = carts[index];
+      const productIndex = carts[index].products.findIndex(
+        (prod) => prod.product === Number(pid)
+      );
+
+      if (productIndex == -1) {
+        carritoExistente.products.push({
+          product: Number(pid),
+          quantity: 1,
+        });
+      } else {
+        carritoExistente.products[productIndex].quantity++;
+      }
+
+      carts[index] = carritoExistente;
+
+      await nuevoCart.saveFile(carts)
+
+      res.json(carritoExistente)
+    
+    } catch {
+      console.error("Error al leer el archivo JSON:", error);
+      res.status(500).send("Error interno del servidor");
+    }
+  };
 
 export default router;

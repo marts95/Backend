@@ -28,5 +28,15 @@
 		"status": true,
 		"category": "",
 		"id": 3
+	},
+	{
+		"id": 4,
+		"title": "Chipaquitos",
+		"description": "No apto para vegetarianos",
+		"code": "A4",
+		"price": 1600,
+		"status": true,
+		"stock": 12,
+		"category": "salado"
 	}
 ]
