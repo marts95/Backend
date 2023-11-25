@@ -5,7 +5,7 @@ const nuevoCart = new Carts("./src/carrito.json");
 
 const router = Router();
 
-// const carts = [];
+const carts = [];
 
 router.get("/", async (req, res) => {
   const carts = await nuevoCart.getCarts();
@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
     const cart = carts.find((cart) => cart.id === Number(cid));
 
     if (carts.length === 0) {
-      cart.id = 1;
+      nuevoCart.createCart();
     } else {
       carts.push({
         id: carts.length + 1,
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
       });
       res.json({ products: { products } });
     }
-    nuevoCart.saveFile(cart);
+    nuevoCart.saveFile();
   } catch {
     console.error("Error al leer el archivo JSON:", error);
     res.status(500).send("Error interno del servidor");
@@ -54,22 +54,22 @@ router.get("/:cid", async (req, res) => {
   }
 });
 
-router.post("/:cid/product/:pid"),
+router.post("/:cid/product/:pid",
   async (req, res) => {
     try {
       const carts = await nuevoCart.getCarts();
       const { cid, pid } = req.params;
 
-      const index = carts.find((cart) => cart.id === Number(cid));
+      const index = carts.findIndex((cart) => cart.id === Number(cid));
 
-      const { id, products } = req.body;
+      // const { id, products } = req.body;
 
       if (index == -1) {
         return res.json("Carrito no encontrado");
       }
 
       const carritoExistente = carts[index];
-      const productIndex = carts[index].products.findIndex(
+      const productIndex = carritoExistente.products.findIndex(
         (prod) => prod.product === Number(pid)
       );
 
@@ -89,9 +89,9 @@ router.post("/:cid/product/:pid"),
       res.json(carritoExistente)
     
     } catch {
-      console.error("Error al leer el archivo JSON:", error);
+      console.error("Error al leer el archivo JSON:", error); 
       res.status(500).send("Error interno del servidor");
     }
-  };
+  });
 
 export default router;

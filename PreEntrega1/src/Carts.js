@@ -32,7 +32,7 @@ class Carts {
   createCart() {
     const cart = { products: [], id: Number };
 
-    if (this.carts.lenght === 0) {
+    if (this.carts.length === 0) {
       cart.id = 1;
     } else {
       cart.id = this.carts[this.carts.length - 1].id + 1;
@@ -72,10 +72,10 @@ export default Carts;
 
 const manejadorCarts = new Carts("./carrito.json");
 
+console.log(manejadorCarts.getCarts());
 // manejadorCarts.createCart();
 
-// console.log(manejadorCarts.getCarts());
 
 // console.log(manejadorCarts.getCartById(2));
 
-console.log(manejadorCarts.addProductInCart(1, 1));
+// console.log(manejadorCarts.addProductInCart(1, 1));
